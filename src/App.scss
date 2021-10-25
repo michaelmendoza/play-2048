@@ -1,0 +1,66 @@
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  position: relative;
+}
+
+.app { 
+
+}
+
+.header { 
+    text-align: center;
+    background-color: #ffffff;
+    padding: 2em;
+    box-shadow: 0 0 0 1px rgba(8,9,10,0.1);
+    z-index: 10;
+}
+
+.viewport {
+    padding: 2em;
+}
+
+.layout-row-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+
+$board-color: #B9ADA1;
+$cell-color: #CAC1B5;
+$cell-active: #EBE3DA;
+$cell-text: #756E66;
+
+.board {
+    margin: 2em;
+    background-color: $board-color;
+    width: 500px;
+    height: 500px;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+
+    .cell {
+        width: 100px;
+        height: 100px;
+        margin: 10px;
+        padding-top: 16px;
+        background-color: $cell-color;
+        color: $cell-text;
+        font-size: 55px;
+        text-align: center;
+
+        &.win {
+            background-color: #598A6D;
+            color: #fefefe;
+        }
+    }
+}
+
+.game-over-message {
+    text-align: center;
+    font-size: 36px;
+}
