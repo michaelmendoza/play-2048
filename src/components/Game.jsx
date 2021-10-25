@@ -20,25 +20,25 @@ const Game = () => {
     useKeyDown(handleDownKey, gameState);
 
     return (
-        <div className='app'>
-        <header className='header'> 2048 </header>
-        <section className='viewport'> 
-            <div className='layout-row-center'>
-                <button onClick={handleNewBoard}> New </button>
-            </div>
+        <div>
+            <header className='header'> 2048 </header>
+            <section className='viewport'> 
+                <div className='layout-row-center'>
+                    <button onClick={handleNewBoard}> New </button>
+                </div>
 
-            <div className='layout-row-center'>
-                <Board board={gameState.board}></Board>
-            </div>
+                <div className='layout-row-center'>
+                    <Board board={gameState.board}></Board>
+                </div>
 
-            <div>
-                { gameState.isGameOver ? <div className='game-over-message'> Game Over, Try again </div>: null }
-            </div>
+                <div>
+                    { gameState.isGameOver ? <div className='game-over-message'> Game Over, Try again </div>: null }
+                </div>
 
-            <div>
-                { gameState.isGameWon ? <div className='game-over-message'> Game Won!! </div>: null }
-            </div>
-        </section>
+                <div>
+                    { gameState.isGameWon ? <div className='game-over-message'> Game Won!! </div>: null }
+                </div>
+            </section>
         </div>
     )
     
