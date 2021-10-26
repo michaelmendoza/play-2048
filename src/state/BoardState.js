@@ -34,13 +34,12 @@ export const addToBoard = (board) => {
     while (board[idx] !== 0) {
         idx = getRandomCellIndex();
     }
-    newBoard[idx] = 2;
+    newBoard[idx] = getCellStartingValue();
     return newBoard;
 }
 
 /** Game move right */
 export const moveRight = (board) => {
-
     let newBoard = [];
     for (let i = 0; i < Rows; i++) {
         const row = getRow(board, i)
@@ -59,7 +58,6 @@ export const moveRight = (board) => {
 
 /** Game move left */
 export const moveLeft = (board) => {
-
     let newBoard = [];
     for (let i = 0; i < Rows; i++) {
         const row = getRow(board, i)
@@ -95,6 +93,9 @@ export const moveDown = (board) => {
 /** Gets random cell index */
 const getRandomCellIndex = () => Math.floor(Math.random() * boardLength);
 
+/** Gets starting cell value - randomly selected between 2 and 4 */
+const getCellStartingValue = () => Math.random() > 0.8 ? 4 : 2;
+
 /** Retrieves row from board for given index */
 const getRow = (board, index) => {
     return board.slice(index * stride, index * stride + 4);
@@ -103,7 +104,6 @@ const getRow = (board, index) => {
 /** Transposes board */
 const getTranspose = (board) => {
     const newBoard = new Array(16).fill(0);
-
     for(let r = 0; r < Rows; r++) {
         for(let c = 0; c < Cols; c++) {
             newBoard[r * Cols + c] = board[c * Rows + r];
@@ -113,23 +113,19 @@ const getTranspose = (board) => {
 }
 
 /** Combines Rows to right side */
-const combineToRight = (filteredRow) => {
+const combineToRight = (row) => {
     const combineRow = [] 
-        for (let k = filteredRow.length - 1; k >= 0; k--) {
-            let combine;
-            if(k === 0) {
-                combineRow.unshift(filteredRow[0])
-                break;
-            }
-
-            if(filteredRow[k] === filteredRow[k-1]) {
-                combine = filteredRow[k] + filteredRow[k-1];
-                combineRow.unshift(combine);
-                k--;
-            }
-            else {
-                combineRow.unshift(filteredRow[k])
-            }            
+    // From right to left, for possible merges
+    for (let k = row.length - 1; k >= 0; k--) {
+        // Check if two adjcent can be merged
+        if (row[k] === row[k-1]) {
+            const combine = row[k] + row[k-1];
+            combineRow.unshift(combine);
+            k--;
         }
+        else {
+            combineRow.unshift(row[k])
+        }            
+    }
     return combineRow;
 }
