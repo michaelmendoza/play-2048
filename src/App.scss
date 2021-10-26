@@ -1,4 +1,33 @@
 
+$button-text-color: #fefefe;
+$button-color: #8A5DD8;
+
+$header-text-color: #fefefe;
+$header-color:#8A5DD8;
+
+$board-color: lighten(#8A5DD8, 5%); 
+$cell-color: lighten(#8A5DD8, 20%); 
+$cell-text: #F0F0F0; 
+$cell-active: #EBE3DA;
+
+$cell-0: grayscale(lighten(#8A5DD888, 10%));
+$cell-2: grayscale(lighten(#8A5DD8aa, 20%));
+$cell-4: adjust-hue(lighten(#8A5DD8, 10%), 10%);
+$cell-8: adjust-hue(lighten(#8A5DD8, 5%), 20%);
+$cell-16: adjust-hue(lighten(#8A5DD8, 10%), 60%);
+$cell-32: adjust-hue(lighten(#8A5DD8, 10%), 100%);
+$cell-64: adjust-hue(lighten(#8A5DD8, 10%), 120%);
+$cell-128: adjust-hue(lighten(#8A5DD8, 10%), 140%);
+$cell-256: adjust-hue(lighten(#8A5DD8, 10%), 180%);
+$cell-512: adjust-hue(desaturate(lighten(#8A5DD8, 14%), 25%), 235%);
+$cell-1024: adjust-hue(lighten(#8A5DD8, 20%), 290%); //#9fd6b5;
+$cell-2048: adjust-hue(lighten(#8A5DD8, 10%), 300%);
+
+$steps: 0 $cell-0, 2 $cell-2, 4 $cell-4, 8 $cell-8, 16 $cell-16, 32 $cell-32, 64 $cell-64, 128 $cell-128, 256 $cell-256, 512 $cell-512, 1024 $cell-1024, 2048 $cell-2048;
+@each $step, $step-value in $steps {
+    .cell-#{$step} { background-color: $step-value; }
+}
+
 *,
 *::before,
 *::after {
@@ -6,17 +35,36 @@
   position: relative;
 }
 
-.header { 
-    text-align: center;
-    background-color: #ffffff;
-    padding: 2em;
-    box-shadow: 0 0 0 1px rgba(8,9,10,0.1);
-    z-index: 10;
+body {
+    background-color: #E0E0E0;
 }
 
-.viewport {
-    padding: 2em;
-}
+button {
+    display: inline-block;
+    background: $button-color;
+    border: 1px solid #cdcdcd;
+    color: $button-text-color;
+    border-radius: 4px;
+    font-size: 1em;
+    text-transform: none;
+    margin: 0 0.5em;
+    padding: 0.75rem 1.25rem;
+    vertical-align: middle;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+    line-height: 1;
+  
+    &:focus {
+      outline:none;
+    }
+    
+    &:hover, &:focus, &:active {
+        color: $button-text-color;
+        border: 1px solid #818181;
+        background: lighten($button-color,  5%);
+    }
+  }
 
 .layout-row-center {
     display: flex;
@@ -25,10 +73,45 @@
     flex-direction: row;
 }
 
-$board-color: #B9ADA1;
-$cell-color: #CAC1B5;
-$cell-active: #EBE3DA;
-$cell-text: #756E66;
+.layout-column-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.layout-space-between {
+    justify-content:space-between
+}
+
+.flex { box-sizing: border-box; flex: 1; }
+$percents: 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100;
+@each $percent in $percents {
+    .flex-#{$percent} { flex: 0 0 percentage($percent/100); }
+}
+
+.header { 
+    text-align: center;
+    color: $header-text-color;
+    background-color: $header-color;
+    padding: 1em;
+    box-shadow: 0 0 0 1px rgba(8,9,10,0.1);
+    z-index: 10;
+    font-size: 24px;
+}
+
+.viewport {
+    padding: 2em;
+}
+
+.board-header {
+    width: 520px;
+    display: flex;
+    flex-direction: row;
+
+    align-items: center;
+    justify-content:end;
+}
 
 .board {
     margin: 2em;
@@ -44,19 +127,19 @@ $cell-text: #756E66;
         height: 100px;
         margin: 10px;
         padding-top: 16px;
-        background-color: $cell-color;
+        //background-color: $cell-color;
         color: $cell-text;
         font-size: 55px;
         text-align: center;
-
-        &.win {
-            background-color: #598A6D;
-            color: #fefefe;
-        }
     }
 }
 
 .game-over-message {
     text-align: center;
     font-size: 36px;
+}
+
+.instructions {
+    width: 520px;
+    padding: 0 10px;
 }
