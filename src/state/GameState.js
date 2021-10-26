@@ -9,6 +9,7 @@ export const newGame = () => ({
     board: createNewBoard(),
     history: [],
     score: 0,
+    scoreHistory: [0],
     isGameOver: false,
     isGameWon: false
 })
@@ -36,18 +37,26 @@ export const move = (state, key) => {
     // Generate updated board 
     let newBoard = boardMoves[key]?.(state.board)
 
-    // Update GameState based on Move
+    // Check if BoardChanged i.e. move is valid move
     const boardChanged = !arrayEquals(state.board, newBoard);
-    if (boardChanged) {
-        const newScore =  state.score + calculateScore(state.board, newBoard);
-        newState.score = newScore;
-        if(newScore > getHighScore()) setHighScore(newScore);
-        newBoard = addToBoard(newBoard);
+    if (!boardChanged) {
+        return state;
     }
-    else {
-        newState.isGameOver = checkGameOver(newBoard)
-    }
+
+    // Update board: Add new tile to board 
+    newBoard = addToBoard(newBoard);
+
+    // Check GameOver/GameWon status
+    newState.isGameOver = checkGameOver(newBoard)
     newState.isGameWon = checkGameWon(newBoard);
+
+    // Update score and scoreHistory
+    const newScore =  state.score + calculateScore(state.board, newBoard);
+    newState.score = newScore;
+    newState.scoreHistory = [...state.scoreHistory, newScore];
+    if(newScore > getHighScore()) setHighScore(newScore);
+
+    // Udpate board and history
     newState.board = newBoard;
     newState.history = [...state.history, state.board]
     return newState;
@@ -55,9 +64,17 @@ export const move = (state, key) => {
 
 /** Undo last move using move history */
 export const undoMove = (state) => {
+    if(state.history.length === 0) return state;
+
     const newState = {...state};
     const lastBoard = newState.history.pop();
     newState.board = lastBoard;
+
+    newState.scoreHistory.pop();
+    newState.score = newState.scoreHistory[newState.scoreHistory.length - 1];
+
+    newState.isGameOver = checkGameOver(lastBoard);
+    newState.isGameWon = checkGameWon(lastBoard);
     return newState;
 }
 
