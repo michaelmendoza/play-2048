@@ -1,8 +1,11 @@
 
 import { useState } from 'react';
 import Board from './Board';
-import { newGame, move } from '../libs/GameState';
+import { newGame, move, undoMove } from '../state/GameState.js';
 import { useKeyDown } from '../libs/CustomHooks';
+import { getHighScore } from '../libs/Storage';
+
+const DEBUG = false; 
 
 const Game = () => {
 
@@ -12,6 +15,10 @@ const Game = () => {
         setGameState(newGame())
     }
     
+    const handleUndoMove = () => {
+        setGameState(undoMove(gameState));
+    }
+
     const handleDownKey = (event) => {
         event.preventDefault();
         setGameState(move(gameState, event.key));
@@ -23,9 +30,15 @@ const Game = () => {
         <div>
             <header className='header'> 2048 </header>
             <section className='viewport layout-column-center'> 
-               
-                <div className='board-header'>
-                    <button onClick={handleNewBoard}> New Game </button>
+                
+                <div className='board-header layout-row layout-space-between'>
+                    <div className='board-score'> Score: {gameState.score} </div>
+                    <div className='board-score'> Best: {getHighScore()} </div>
+
+                    <div>
+                        { DEBUG ? <button onClick={handleUndoMove}> Undo </button> : null }
+                        <button onClick={handleNewBoard}> New Game </button>
+                    </div>
                 </div>
 
                 <div className='layout-row-center'>
@@ -45,6 +58,9 @@ const Game = () => {
                         HOW TO PLAY: Use your arrow keys to move the tiles. Tiles with the same number merge into one when they touch. Add them up to reach 2048!
                     </p>
                 </div>
+
+                { DEBUG ? <ColorPallete/> : null }
+                
             </section>
         </div>
     )

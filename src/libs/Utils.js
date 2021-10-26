@@ -11,3 +11,10 @@ export const arrayEquals = (a, b) => {
     }
     return true;
 }
+
+/** Geneates a dict of array element frequency */
+export const createFrequencyDictionary = (array) => {
+    const dict = {};
+    array.forEach(element => dict[element] = dict[element] ? dict[element] + 1 : 1 );
+    return dict;
+}

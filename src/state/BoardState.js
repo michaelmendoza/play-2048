@@ -12,6 +12,8 @@ export const test0 = [0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0];
 export const test1 = [2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0];
 export const test2 = [2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0];
 export const test3 = [2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+export const test4 = [4,4,0,0,2,8,0,0,2,8,4,2,4,16,4,2];
+export const test5 = [0,2,8,2,2,4,16,2,2,4,16,2,2,4,8,4];
 
 // ***************** Board State Updates *****************
 
@@ -113,7 +115,7 @@ const getTranspose = (board) => {
 /** Combines Rows to right side */
 const combineToRight = (filteredRow) => {
     const combineRow = [] 
-        for ( let k = filteredRow.length - 1; k >= 0; k--) {
+        for (let k = filteredRow.length - 1; k >= 0; k--) {
             let combine;
             if(k === 0) {
                 combineRow.unshift(filteredRow[0])
