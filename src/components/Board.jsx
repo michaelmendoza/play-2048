@@ -1,11 +1,10 @@
-import { winValue } from "../libs/GameState";
 
 const Board = ({board}) => {
 
     const getClassName = (value) => {
         return `cell cell-${value}`;
     }
-    
+
     return (
         <div className='board'>
             { 
